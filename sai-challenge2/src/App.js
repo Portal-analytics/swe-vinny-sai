@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import AppBar from 'material-ui/AppBar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
+import BottomNavigation from 'material-ui/BottomNavigation'
 
-var quotes = ["Click Me","Don't take out a fucking second mortgage","Ship some fucking code","Get fucking profitable","Act like you know what the fuck you're doing","Don't forget to eat your fucking lunch"];
-class App extends Component {
+var quotes = ["Here is some fucking advice","Don't take out a fucking second mortgage","Ship some fucking code","Get fucking profitable","Act like you know what the fuck you're doing","Don't forget to eat your fucking lunch"];
+class App extends React.Component {
 
   constructor(props){
     super(props);
@@ -19,16 +23,31 @@ class App extends Component {
     })
 }
 
+randClick(){
+  var newIndex = Math.floor((Math.random()*6));
+  this.setState({
+    currentIndex: newIndex
+  })
+}
+
   render() {
     return (
       <div className="App">
         <div className="App-header">
-
-          <h2>Great Fucking {<br></br>} Startup Advice </h2>
+          <MuiThemeProvider>
+            <div>
+          <AppBar title='Great Fucking Startup Advice'/>
+        <RaisedButton className="order-button" label="Next" backgroundColor='orange' onClick={() => {this.onClick()}}></RaisedButton>
+        <RaisedButton className="random-button" label="Random" backgroundColor='orange' onClick={() => {this.randClick()}}></RaisedButton>
+    
+        </div>
+          </MuiThemeProvider>
 
         </div>
         {quotes[this.state.currentIndex]}
-        <button className="App-button" onClick={() => {this.onClick()}}></button>
+        <MuiThemeProvider>
+          <BottomNavigation className='bottom-nav'/>
+          </MuiThemeProvider> 
         </div>
 
 
