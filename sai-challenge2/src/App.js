@@ -44,10 +44,14 @@ randClick(){
           </MuiThemeProvider>
 
         </div>
+        <div className="quote">
         {quotes[this.state.currentIndex]}
+        </div>
+        <div className="bottom-nav">
         <MuiThemeProvider>
-          <BottomNavigation className='bottom-nav'/>
+          <BottomNavigation/>
           </MuiThemeProvider> 
+          </div>
         </div>
 
 
