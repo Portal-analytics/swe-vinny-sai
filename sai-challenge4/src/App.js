@@ -12,7 +12,6 @@ constructor(props){
     name: '',
     description: '',
     price: '',
-    index: index,
 
     contract_list : []
   }
@@ -30,8 +29,6 @@ handleChangeName(event){
     this.setState({
       name: event.target.value
     });
-
-    console.log(this.state.name);
 }
 
 handleChangeDescription(event){
@@ -55,20 +52,24 @@ onsubmit(e){
       name: this.state.name,
       description: this.state.description,
       price: this.state.price,
-      index: (this.state.index)
+      index: index
     }])
   })
   index+=1;
   console.log(this.state.contract_list)
 }
 
-editContract(c, d, p){
+editContract(c, d, p,i){
+
+    var updated_contracts = this.state.contract_list
+    updated_contracts[i] = {
+      name : c,
+      description: d, 
+      price: p,
+      index: i
+    }
     this.setState({
-      contract_list: [{
-        name: c,
-        description: d,
-        price: p
-      }]
+      contract_list: updated_contracts
     })
     console.log(this.state.contract_list)
 }
@@ -76,7 +77,7 @@ editContract(c, d, p){
 
   render() {
     const contractList = this.state.contract_list.map((contract)=>
-        <Contract contractName={contract.name} description={contract.description} index={0} price={contract.price} editContract={(e,x,y) => this.editContract(e,x,y)}/>
+        <Contract contractName={contract.name} description={contract.description} index={contract.index} price={contract.price} editContract={(e,x,y,i) => this.editContract(e,x,y,i)}/>
     )
     return (
   
