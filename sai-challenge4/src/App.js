@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Contract from './Contract.js'
+import * as firebase from "firebase"
 
 var index = 0;
+var config = {
+    apiKey: "AIzaSyD8ruCR99nsDSL44GqhSZOu9nC_i6RftOY",
+    authDomain: "contracts-b9532.firebaseapp.com",
+    databaseURL: "https://contracts-b9532.firebaseio.com",
+    projectId: "contracts-b9532",
+    storageBucket: "contracts-b9532.appspot.com",
+    messagingSenderId: "632497945652"
+};
+firebase.initializeApp(config);
+
+const fb = firebase  
+  .database()
+  .ref();
+
+
 class App extends Component {
 constructor(props){
   super(props);
@@ -45,6 +61,7 @@ handleChangePrice(event){
 
 onsubmit(e){
 
+
   e.preventDefault();
 
   this.setState({
@@ -56,6 +73,7 @@ onsubmit(e){
     }])
   })
   index+=1;
+  
   console.log(this.state.contract_list)
 }
 
@@ -73,6 +91,19 @@ editContract(c, d, p,i){
     })
     console.log(this.state.contract_list)
 }
+
+// componentWillMount() {  
+//     this.firebaseRef = firebase.database().push({
+//         name: this.state.name,
+//       description: this.state.description,
+//       price: this.state.price,
+//       index: index
+//     })
+// }
+
+componentWillUnmount() {  
+    this.firebaseRef.off();
+};
 
 
   render() {
