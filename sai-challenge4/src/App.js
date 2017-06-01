@@ -4,21 +4,9 @@ import './App.css';
 import Contract from './Contract.js'
 import * as firebase from "firebase"
 
+
+
 var index = 0;
-var config = {
-    apiKey: "AIzaSyD8ruCR99nsDSL44GqhSZOu9nC_i6RftOY",
-    authDomain: "contracts-b9532.firebaseapp.com",
-    databaseURL: "https://contracts-b9532.firebaseio.com",
-    projectId: "contracts-b9532",
-    storageBucket: "contracts-b9532.appspot.com",
-    messagingSenderId: "632497945652"
-};
-firebase.initializeApp(config);
-
-const fb = firebase  
-  .database()
-  .ref();
-
 
 class App extends Component {
 constructor(props){
@@ -61,8 +49,9 @@ handleChangePrice(event){
 
 onsubmit(e){
 
+var contractsRef = firebase.database().ref("contracts/");
 
-  e.preventDefault();
+e.preventDefault();
 
   this.setState({
     contract_list: this.state.contract_list.concat([{
@@ -73,11 +62,19 @@ onsubmit(e){
     }])
   })
   index+=1;
-  
-  console.log(this.state.contract_list)
-}
 
-editContract(c, d, p,i){
+  var index_string = index.toString()
+  contractsRef.child(index_string).push({
+  name: this.state.name,
+  description: this.state.description,
+  price: this.state.price
+})
+
+} 
+  
+
+
+editContract(c, d, p, i){
 
     var updated_contracts = this.state.contract_list
     updated_contracts[i] = {
@@ -89,17 +86,9 @@ editContract(c, d, p,i){
     this.setState({
       contract_list: updated_contracts
     })
-    console.log(this.state.contract_list)
 }
 
-// componentWillMount() {  
-//     this.firebaseRef = firebase.database().push({
-//         name: this.state.name,
-//       description: this.state.description,
-//       price: this.state.price,
-//       index: index
-//     })
-// }
+
 
 componentWillUnmount() {  
     this.firebaseRef.off();
