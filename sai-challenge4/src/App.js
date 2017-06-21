@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Contract from './Contract.js'
+import * as firebase from "firebase"
+
+
 
 var index = 0;
+
 class App extends Component {
 constructor(props){
   super(props);
@@ -45,7 +49,9 @@ handleChangePrice(event){
 
 onsubmit(e){
 
-  e.preventDefault();
+var contractsRef = firebase.database().ref("contracts/");
+
+e.preventDefault();
 
   this.setState({
     contract_list: this.state.contract_list.concat([{
@@ -56,10 +62,19 @@ onsubmit(e){
     }])
   })
   index+=1;
-  console.log(this.state.contract_list)
-}
 
-editContract(c, d, p,i){
+  var index_string = index.toString()
+  contractsRef.child(index_string).push({
+  name: this.state.name,
+  description: this.state.description,
+  price: this.state.price
+})
+
+} 
+  
+
+
+editContract(c, d, p, i){
 
     var updated_contracts = this.state.contract_list
     updated_contracts[i] = {
@@ -71,8 +86,13 @@ editContract(c, d, p,i){
     this.setState({
       contract_list: updated_contracts
     })
-    console.log(this.state.contract_list)
 }
+
+
+
+componentWillUnmount() {  
+    this.firebaseRef.off();
+};
 
 
   render() {
